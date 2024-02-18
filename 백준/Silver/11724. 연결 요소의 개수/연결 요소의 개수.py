@@ -1,26 +1,38 @@
 import sys
-sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
+sys.setrecursionlimit(10**6)
+def dfs(i, v):
+    visited = [0] * (v + 1)
+    visited[0] = 1
+    visited[i] = 1
+    stack = []
+    cnt = 1
+    while 0 in visited:
+        for w in adjl[i]:
+            if visited[w] == 0:
+                stack.append(i)
+                i = w
+                visited[w] = 1
+                break
+        else:
+            if stack:
+                i = stack.pop()
+            else:
+                i = visited.index(0)
+                visited[i] = 1
+                cnt += 1
+    return cnt
 
-# dfs 함수
-def dfs(graph, v, visited):
-    visited[v] = True
-    for i in graph[v]:
-        if not visited[i]:
-            dfs(graph, i, visited)
 
-n, m = map(int, input().split()) # 정점의 개수, 간선의 개수
-graph = [[] for _ in range(n+1)]
-for i in range(m):
-    u, v = map(int, input().split())
-    graph[u].append(v)
-    graph[v].append(u)
-
-count = 0 # 연결 노드의 수
-visited = [False] * (n+1)
-for i in range(1, n+1):
-    if not visited[i]:
-        dfs(graph, i, visited)
-        count += 1 # dfs 한 번 끝날 때마다 count+1
-
-print(count)
+"""
+N = 정점의 개수, M = 간선의 개수
+adjl = 연결 리스트
+연결된 그래프들의 수를 출력
+"""
+N, M = map(int, input().split())
+adjl = [[] for _ in range(N + 1)]
+for _ in range(M):
+    n1, n2 = map(int, input().split())
+    adjl[n1].append(n2)
+    adjl[n2].append(n1)
+print(dfs(1, N))
