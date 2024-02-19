@@ -1,35 +1,26 @@
 import sys
-input = sys.stdin.readline
 sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
 
-def dfs(i, cnt):
-    visited[i] = 1
-    cnt += 1
-    if i == b:
-        ans.append(cnt)
-
+def dfs(i, b):
     for w in adjl[i]:
-        if visited[w] == 0:
-            dfs(w, cnt)
+        if not visited[w]:
+            visited[w] = visited[i] + 1
+            dfs(w, b)
 
 
-n= int(input())
-a, b =map(int, input().split())
+n = int(input())
+a, b = map(int, input().split())
 m = int(input())
-adjl = [[] for _ in range(n+1)]
-
 visited = [0] * (n+1)
-ans = []
-
+cnt = 1
+adjl = [[] for _ in range(n+1)]
 for _ in range(m):
-    n1, n2 = map(int, input().split())
-    adjl[n1].append(n2)
-    adjl[n2].append(n1)
-
-dfs(a, 0)
-
-if len(ans) == 0:
-    print(- 1)
+    x, y = map(int, input().split())
+    adjl[x].append(y)
+    adjl[y].append(x)
+dfs(a, b)
+if visited[b] != 0:
+    print(visited[b])
 else:
-    print(ans[0] - 1)
-
+    print(-1)
