@@ -1,4 +1,5 @@
-
+import sys
+input = sys.stdin.readline
 from collections import deque
 
 dr = [0, 0, -1, 1]
