@@ -1,16 +1,15 @@
 T = int(input())
-
-for tc in range(1, T+1):
-    tmp = 'Possible'
+for tc in range(1,T+1):
     N, M, K = map(int, input().split())
     arr = list(map(int, input().split()))
     arr.sort()
-    available = 0
+    tmp = 'Possible'
+    remain = 0
     sold = 0
-    for customer in arr:
-        made = customer // M * K
+    for i in arr:
+        made = i // M * K
         sold += 1
-        available = made - sold
-        if available < 0:
+        remain = made - sold
+        if remain < 0:
             tmp = 'Impossible'
     print(f'#{tc} {tmp}')
