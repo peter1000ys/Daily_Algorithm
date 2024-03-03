@@ -1,4 +1,7 @@
-board = [[0 for i in range(101)] for j in range(101)]
+
+import sys
+input = sys.stdin.readline
+board = [[0 for i in range(1001)] for j in range(1001)]
 n = int(input())
 cnt = 1
 for i in range(n):
