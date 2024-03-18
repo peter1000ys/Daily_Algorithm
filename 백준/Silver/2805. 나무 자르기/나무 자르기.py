@@ -1,26 +1,22 @@
-import sys
+def binarysearch(m):
+    start = 0
+    end = max(arr)
 
-input = sys.stdin.readline
+    while start <= end:
+        middle = (start + end) // 2
+        total = 0
+        for i in arr:
+            if i > middle:
+                total += (i - middle)
 
-N, M = map(int, input().split())
+        if total < m:
+            end = middle - 1
+        elif total >= m:
+            start = middle + 1
+    return start - 1
 
-trees = list(map(int, input().split()))
 
-start = 1
-end = max(trees)
-
-while start <= end:
-    total = 0
-    mid = (start + end) // 2
-
-    for i in trees:
-        if mid < i:
-            total += (i - mid)
-        else:
-            continue
-    if total >= M:
-        start = mid + 1
-    else:
-        end = mid - 1
-
-print(end)
+n, m = map(int, input().split())
+arr = list(map(int, input().split()))
+arr.sort()
+print(binarysearch(m))
