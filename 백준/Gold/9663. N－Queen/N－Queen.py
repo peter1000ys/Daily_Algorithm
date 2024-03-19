@@ -1,28 +1,28 @@
+import sys
+input = sys.stdin.readline
 
-N = int(input())
-visited = [0] * N
-cnt = 0
 
-def diangonal(x):
+def check(x):
     for i in range(x):
-        if visited[x] == visited[i] or abs(visited[x] - visited[i]) == abs(x - i):
+        if used[x] == used[i] or abs(x - i) == abs(used[x] - used[i]):
             return False
-
     return True
 
 
-def n_queen(x):
+def nqueen(x):
     global cnt
-    if x == N:
+    if x == n:
         cnt += 1
         return
 
-    for i in range(N):
-        visited[x] = i
+    for i in range(n):
+        used[x] = i
+        if check(x):
+            nqueen(x+1)
 
-        if diangonal(x):
-            n_queen(x+1)
 
-
-n_queen(0)
+n = int(input())
+used = [0] * n
+cnt = 0
+nqueen(0)
 print(cnt)
