@@ -33,9 +33,9 @@ for i in range(n):
 
 arr = list(map(int, input().split()))
 temp = True
-prev = find_set(arr[0] - 1)
-for i in range(1, m):
-    if prev != find_set(arr[i] - 1):
+
+for i in range(m-1):
+    if find_set(arr[i] - 1) != find_set(arr[i+1] - 1):
         temp = False
 if temp:
     print('YES')
