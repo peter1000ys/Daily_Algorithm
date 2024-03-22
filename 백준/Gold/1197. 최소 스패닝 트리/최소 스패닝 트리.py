@@ -1,51 +1,47 @@
-from heapq import heappush, heappop
+# 모든 정점들을 연결하는 부분 그래프 => MST = prim, kruskal
+from heapq import heappop, heappush
 import sys
 input = sys.stdin.readline
-def prim(start):
-    heap = []
-    # 방문한 정점
-    MST = [0] * V
-    # 최소 가중치 합
-    sum_weight = 0
 
-    heappush(heap, (0, start))
+def find_set(x):
+    if parents[x] == x:
 
+        return x
 
-    while heap:
-        weight, node = heappop(heap)
-        # 이미 방문한 정점이면 pass
-        if MST[node]:
-            continue
-        # 가중치를 더해 준다
-        sum_weight += weight
-        # 방문한 정점으로 표시
-        MST[node] = 1
-        # 다른 정점들 중에서
-        for next_w, next_node in adjlist[node]:
-            # 연결 되지 않았다면 pass
-            if next_w == 0:
-                continue
-            # 방문한 적 있는 정점이라면 pass
-            if MST[next_node]:
-                continue
-            # 위의 조건에 해당 사항이 없는 값들 입력
-            heappush(heap, (next_w, next_node))
+    parents[x] = find_set(parents[x])
+    return parents[x]
 
-    return sum_weight
+def union(x, y):
+    x = find_set(x)
+    y = find_set(y)
+    
+    if x == y:
+        return
 
-
-
+    if x > y:
+        parents[x] = y
+    else:
+        parents[y] = x
 
 
 V, E = map(int, input().split())
-# 인접 행렬로 하니 메모리 초과 발생
-# g = [[0]*V for _ in range(V)]
-# 인접 리스트로 바꿔줌
-adjlist = [[] for _ in range(V)]
+heap = []
+parents = [i for i in range(V)]
 for _ in range(E):
-    u, v, w = map(int, input().split())
-    adjlist[u-1].append((w,v-1))
-    adjlist[v-1].append((w,u-1))
+    s, e, w = map(int, input().split())
+    heappush(heap, (w, s-1, e-1))
 
-res = prim(0)
-print(res)
+sum_weight = 0
+
+
+while heap:
+    w, s, e = heappop(heap)
+
+    if find_set(s) == find_set(e):
+        continue
+
+    union(s, e)
+    sum_weight += w
+
+print(sum_weight)
+
