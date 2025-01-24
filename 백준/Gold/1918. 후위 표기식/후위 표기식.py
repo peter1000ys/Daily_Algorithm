@@ -1,38 +1,37 @@
-"""
-후위 표기식 : 연산자가 피연산자 뒤에 위치하는 방법
-
-주어진 중위 표기식을 연산자의 우선순위에 따라 괄호로 묶어준다.
-
-"""
 import sys
+
 input = sys.stdin.readline
-# 스택 밖에서의 우선 순위
-icp = {'+': 1, '-': 1, '*': 2, '/': 2, '(': 3}
-# 스택 내부에서의 우선 순위
-isp = {'+': 1, '-': 1, '*': 2, '/': 2, '(': 0}
 
-# 중위 표기식을 후위 표기식으로 바꿔 주는 함수
-def to_postfix(infix, n):
-    postfix = ''
-    stack = []
-    for i in range(n):
-        if infix[i] not in '+-*/()':
-            postfix += infix[i]
+# 스택 내부 우선 순위
+iis = {'+': 1, '-': 1, '*': 2, '/': 2, '(': 0}
+# 스택 외부 우선 순위
+# *가 스택 안에 위치하고 밖에 +를 만날 때는 *를 먼저 입력해야 하므로 각각의 우선 순위가 필요
+ios = {'+': 1, '-': 1, '*': 2, '/': 2, '(': 3}
+
+infix = list(input().rstrip())
+
+stack = []
+postfix = ''
+
+for i in infix:
+    if i not in '+-*/()':
+        postfix += i
+    else:
+        if i == '(':
+            stack.append(i)
+
+        elif i == ')':
+            while stack[-1] != '(':
+                postfix += stack.pop()
+            stack.pop()
         else:
-            if infix[i] == ')':
-                while stack:
-                    c = stack.pop()
-                    if c == '(':
-                        break
-                    postfix += c
-            else:
-                while stack and isp[stack[-1]] >= icp[infix[i]]:
-                    postfix += stack.pop()
-                stack.append(infix[i])
-    while stack:
-        postfix += stack.pop()
-    return postfix
 
-infix = input().rstrip()
-print(to_postfix(infix, len(infix)))
+            while stack and iis[stack[-1]] >= ios[i]:
+                postfix += stack.pop()
 
+            stack.append(i)
+
+while stack:
+    postfix += stack.pop()
+
+print(postfix)
