@@ -1,43 +1,45 @@
-"""
-N = 정점의 개수
-M = 간선의 개수
-V = 시작 정점
-
-"""
+import sys
 from collections import deque
+
+input = sys.stdin.readline
+
 def dfs(n):
-    visited_dfs[n] = 1
-    print(n, end=' ')
+    dfs_visit[n] = 1
+    print(n, end=" ")
     for w in adjl[n]:
-        if visited_dfs[w] == 0:
+        if dfs_visit[w] == 0:
+            dfs_visit[w] = 1
             dfs(w)
 
 def bfs(n):
-    visited_bfs = [n]
+    bfs_visit[n] = 1
     queue = deque([n])
+
     while queue:
-        a = queue.popleft()
-        print(a, end=' ')
-        for w in adjl[a]:
-            if w not in visited_bfs:
-                visited_bfs.append(w)
-                queue.append(w)
+        t = queue.popleft()
+        print(t, end=" ")
+        for x in adjl[t]:
+            if bfs_visit[x] == 0:
+                bfs_visit[x] = 1
+                queue.append(x)
 
 
-N, M, V = map(int, input().split())
 
-adjl = [[] for _ in range(N+1)]
-visited_dfs = [0] * (N+1)
+n, m, v = map(int, input().split())
 
-for _ in range(M):
+adjl = [[] for _ in range(n+1)]
+
+dfs_visit = [0]*(n+1)
+bfs_visit = [0]*(n+1)
+
+for _ in range(m):
     a, b = map(int, input().split())
     adjl[a].append(b)
     adjl[b].append(a)
 
-for i in range(N+1):
-    adjl[i].sort()
+for list in adjl:
+    list.sort()
 
-
-dfs(V)
+dfs(v)
 print()
-bfs(V)
+bfs(v)
