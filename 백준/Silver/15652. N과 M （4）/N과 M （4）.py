@@ -1,23 +1,17 @@
-path = []
-all_num = []
+import sys
 
-def NnM(x):
-    if x == m:
+input = sys.stdin.readline
 
-        print(*path, sep=' ')
+def back(a, path):
+
+    if len(path) == m:
+        print(*path)
         return
 
-    for i in range(1, n + 1):
-        if path:
-            if i >= path[-1]:
-                path.append(i)
-                NnM(x + 1)
-                path.pop()
-        else:
-            path.append(i)
-            NnM(x + 1)
-            path.pop()
+    for i in range(a, n+1):
+        back(i, path + [i])
 
 
 n, m = map(int, input().split())
-NnM(0)
+
+back(1, [])
