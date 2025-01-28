@@ -1,13 +1,17 @@
-# 1부터 N까지 자연수 중에서 중복 없이 M개를 고른 수열
-# 고른 수열은 오름차순이어야 한다
-def NnM(x, start, arr):
-    if x == m:
-        print(*arr, sep=' ')
+import sys
+
+input = sys.stdin.readline
+
+def back(a, path, used):
+
+    if len(path) == m:
+        print(*path)
         return
 
-    for i in range(start, n+1):
-        NnM(x+1, i + 1, arr + [i])
-
+    for i in range(a, n+1):
+        if i not in used:
+            back(i, path+[i], used+[i])
 
 n, m = map(int, input().split())
-NnM(0, 1, [])
+
+back(1, [], [])
