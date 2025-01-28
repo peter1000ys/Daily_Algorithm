@@ -1,20 +1,19 @@
-path = []
+import sys
+
+input = sys.stdin.readline
 
 
-
-def NnM(x):
-    if x == m:
-        print(*path, sep=' ')
+def back(a, path, used):
+    if len(path) == m:
+        print(*path)
         return
 
     for i in range(0, n):
-        if arr[i] not in path:
-            path.append(arr[i])
-            NnM(x + 1)
-            path.pop()
+        if i not in used:
+            back(i, path + [arr[i]], used + [i])
 
 
 n, m = map(int, input().split())
 arr = list(map(int, input().split()))
 arr.sort()
-NnM(0)
+back(1, [], [])
