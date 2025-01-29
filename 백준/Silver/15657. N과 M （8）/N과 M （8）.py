@@ -1,19 +1,17 @@
-path = []
+import sys
 
+input = sys.stdin.readline
 
-def NnM(x, start):
-    if x == m:
-        print(*path, sep=' ')
-
+def back(a, path):
+    if len(path) == m:
+        print(*path)
         return
 
-    for i in range(start, n):
-        path.append(arr[i])
-        NnM(x + 1, i)
-        path.pop()
-
+    for i in range(a, n):
+        back(i, path + [arr[i]])
 
 n, m = map(int, input().split())
 arr = list(map(int, input().split()))
 arr.sort()
-NnM(0, 0)
+
+back(0, [])
