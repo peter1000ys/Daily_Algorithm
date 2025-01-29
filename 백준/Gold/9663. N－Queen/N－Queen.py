@@ -1,28 +1,31 @@
 import sys
+
 input = sys.stdin.readline
 
+n = int(input())
 
 def check(x):
     for i in range(x):
-        if used[x] == used[i] or abs(x - i) == abs(used[x] - used[i]):
+        if row[x] == row[i] or abs(x - i) == abs(row[x] - row[i]):
             return False
     return True
 
-
 def nqueen(x):
+
     global cnt
+
     if x == n:
         cnt += 1
         return
 
     for i in range(n):
-        used[x] = i
+        row[x] = i
         if check(x):
             nqueen(x+1)
 
+row = [0] * n
 
-n = int(input())
-used = [0] * n
 cnt = 0
+
 nqueen(0)
 print(cnt)
