@@ -1,24 +1,23 @@
 import sys
-from collections import deque
 
 input = sys.stdin.readline
 
-def solution(words, start):
+def find(idx, text):
+
     global ans
 
-    if words == '':
+    if len(text) == 0:
         return
 
-    min_word = min(words)
-    index_min = words.index(min_word)
-    ans[start + index_min] = min_word
+    min_text = min(text)
+    idx_min = text.index(min_text)
+    ans[idx+idx_min] = min_text
     print(''.join(ans))
 
-    solution(words[index_min+1:], start + index_min + 1)
-    solution(words[:index_min], start)
+    find(idx+idx_min+1, text[idx_min+1:])
+    find(idx, text[:idx_min])
 
+word = input().rstrip()
+ans = [''] * len(word)
+find(0, word)
 
-alpha = input().rstrip()
-
-ans = [''] * len(alpha)
-solution(alpha, 0)
