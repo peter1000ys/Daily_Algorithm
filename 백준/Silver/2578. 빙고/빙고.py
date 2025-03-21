@@ -42,16 +42,20 @@ def bingo(n):
                 arr[x][y] = 0
     return check()
 
+def solve():
+    cnt = 0
+    for i in range(5):
+        for j in range(5):
+            cnt += 1
+            bingo_cnt = bingo(call[i][j])
+            if bingo_cnt >= 3:
+                print(cnt)
+                return 
+
+
 arr = [list(map(int,input().split())) for _ in range(5)]
 call = [list(map(int,input().split())) for _ in range(5)]
-cnt = 0
-for i in range(5):
-    for j in range(5):
-        cnt += 1
-        bingo_cnt = bingo(call[i][j])
-        if bingo_cnt >= 3:
-            print(cnt)
-            exit(0)
 
+solve()
 
 
