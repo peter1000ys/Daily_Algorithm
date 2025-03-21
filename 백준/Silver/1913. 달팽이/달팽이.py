@@ -2,38 +2,38 @@ import sys
 
 input = sys.stdin.readline
 
-dr = [1, 0, -1, 0]
-dc = [0, 1, 0, -1]
-N = int(input())
-M = int(input())
+def solve():
+    for x in range(n):
+        for y in range(n):
+            if arr[x][y] == m:
+                print(str(x+1) + " " + str(y+1))
+                return
 
-board = [[0] * N for _ in range(N)]
+n = int(input())
+m = int(input())
 
-d = 0
-row, col = 0, 0
-ans_r, ans_c = 0, 0
-for num in range(N ** 2, 0, -1):
-    board[row][col] = num
+num = n**2
 
-    if board[row][col] == M:
-        ans_r, ans_c = row+1, col+1
+arr = [[0]*n for _ in range(n)]
 
-    nr = row + dr[d]
-    nc = col + dc[d]
+for i in range(n):
 
-    if 0 <= nr < N and 0 <= nc < N and board[nr][nc] == 0:
+    for j in range(i, n-i):
+        arr[j][i] = num
+        num -= 1
 
-        row, col = nr, nc
+    for j in range(i+1, n-i):
+        arr[n-i-1][j] = num
+        num -= 1
 
-    else:
-        if d < 3:
-            d += 1
-        elif d == 3:
-            d = 0
-        row += dr[d]
-        col += dc[d]
-        continue
+    for j in range(n-i-2, i-1, -1):
+        arr[j][n-i-1] = num
+        num -= 1
 
-for x in board:
-    print(*x)
-print(ans_r, ans_c)
+    for j in range(n-i-2, i, -1):
+        arr[i][j] = num
+        num -= 1
+
+for row in arr:
+    print(*row)
+solve()
