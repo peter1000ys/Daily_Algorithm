@@ -1,29 +1,38 @@
-sentence = list(input())
-result = ''
-stack = []
-temp = False
-for i in range(len(sentence)):
-    if sentence[i] == ' ' and temp == False:
-        while stack:
-            result += stack.pop()
-        result += sentence[i]
-    elif i == len(sentence)-1 and temp == False:
-        result += sentence[i]
-        while stack:
-            result += stack.pop()
-    elif sentence[i] == '<':
-        while stack:
-            result += stack.pop()
-        result += sentence[i]
-        temp = True
-    elif sentence[i] == '>':
-        result += sentence[i]
-        temp = False
-    else:
-        if temp:
-            result += sentence[i]
-        else:
-            stack.append(sentence[i])
+import sys
 
-print(result)
+input = sys.stdin.readline
+
+
+S = input().rstrip()
+
+tag = False
+
+ans = ''
+word = ''
+
+for i in S:
+    if i == '<':
+        tag = True
+        ans += word[::-1]
+        word = i
+
+    elif i == '>':
+        tag = False
+        word += i
+        ans += word
+        word = ''
+
+    elif i == ' ':
+        if tag:
+            word += i
+        else:
+            ans += word[::-1]
+            ans += i
+            word = ''
+    else:
+        word += i
+
+ans += word[::-1]
+
+print(ans)
 
