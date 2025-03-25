@@ -2,16 +2,16 @@ import sys
 
 input = sys.stdin.readline
 
-def back(a, path):
-
-    if len(path) == m:
-        print(*path)
+def NnM(x, start, arr):
+    if x == m:
+        print(*arr)
         return
 
-    for i in range(a, n+1):
-        back(i, path + [i])
+    for i in range(start, n+1):
+
+        NnM(x+1, i, arr+[i])
 
 
 n, m = map(int, input().split())
 
-back(1, [])
+NnM(0, 1, [])
