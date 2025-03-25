@@ -1,26 +1,34 @@
 import sys
+
 input = sys.stdin.readline
+# 사용한 재료 신맛의 곱, 쓴맛의 합
+def food(arr):
+    multiply_S, sum_B = 1, 0
+    for i in arr:
+        multiply_S *= S[i]
+        sum_B += B[i]
+    return abs(multiply_S - sum_B)
 
-def cook(x, start, sour, bitter):
-    global min_
-    if x > 0 and abs(sour - bitter) < min_:
-        min_ = abs(sour - bitter)
+# 요리의 신맛과 쓴맛의 차이를 작게 만들려고 한다
+def cook(start, picked):
+    global min_res
+    if picked:
+        min_res = min(food(picked), min_res)
 
-    if x == n:
-
-        return
-
-    for i in range(start, n):
-        s1, b1 = lst[i]
-        cook(x+1, i+1,  sour*s1, bitter+b1)
+    for i in range(start, N):
+        if i not in picked:
+            cook(i, picked+[i])
 
 
-n = int(input())
-lst = []
 
-min_ = 1000000000
-for _ in range(n):
+
+# 재료 N개, 신맛 S, 쓴맛 B
+N = int(input())
+S, B = [], []
+min_res = 1000000000
+for _ in range(N):
     s, b = map(int, input().split())
-    lst.append((s,b))
-cook(0,0,1,0)
-print(min_)
+    S.append(s)
+    B.append(b)
+cook(0,[])
+print(min_res)
