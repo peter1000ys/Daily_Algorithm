@@ -1,30 +1,27 @@
-path = []
-used = []
+import sys
 
+input = sys.stdin.readline
 
-def f(x, sum_card):
-    global max_v
+# n장이 카드 중 3장을 골라야 한다
+# 3장의 합이 M을 넘지 않고 최대한 가깝게 만들어야 한다.
+def blackJack(start, picked):
 
-    if sum_card > M:
+    global sum_max
+
+    if len(picked) == 3:
+        if sum(picked) <= M:
+            sum_max = max(sum_max, sum(picked))
         return
 
-    if x == 3:
-        if sum_card <= M:
-            max_v = max(sum_card, max_v)
-
-        return
-
-    for i in range(n):
-        if i not in used:
-            path.append(arr[i])
-            used.append(i)
-            f(x+1, sum_card + arr[i])
-            path.pop()
-            used.pop()
+    for i in range(start, N):
+        if cards[i] not in picked:
+            blackJack(i, picked+[cards[i]])
 
 
-n, M = map(int, input().split())
-arr = list(map(int, input().split()))
-max_v = 0
-f(0, 0)
-print(max_v)
+# N 장의 카드, 숫자 M
+N, M = map(int, input().split())
+cards = list(map(int, input().split()))
+sum_max = 0
+blackJack(0, [])
+print(sum_max)
+
