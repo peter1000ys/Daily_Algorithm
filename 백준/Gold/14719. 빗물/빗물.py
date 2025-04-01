@@ -2,27 +2,23 @@ import sys
 
 input = sys.stdin.readline
 
-h,w = map(int, input().split())
+h, w = map(int, input().split())
+blocks = list(map(int, input().split()))
 
-walls = list(map(int, input().split()))
+max_left = [0] * w
+max_right = [0] * w
 
-left_max = [0] * w
-right_max = [0] * w
-
-left_max[0] = walls[0]
+max_left[0] = blocks[0]
+max_right[-1] = blocks[-1]
 
 for i in range(1, w):
-    left_max[i] = max(left_max[i-1], walls[i])
+    max_left[i] = max(max_left[i-1], blocks[i])
+for j in range(w-2, -1, -1):
+    max_right[j] = max(max_right[j+1], blocks[j])
 
-right_max[w-1] = walls[w-1]
+ans = 0
 
-for i in range(w-2, -1, -1):
-    right_max[i] = max(right_max[i+1], walls[i])
+for x in range(w):
+    ans += min(max_left[x], max_right[x]) - blocks[x]
 
-
-water = 0
-
-for i in range(w):
-    water += min(left_max[i], right_max[i]) - walls[i]
-
-print(water)
+print(ans)
